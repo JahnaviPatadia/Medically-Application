@@ -9,7 +9,7 @@ const Footer = () => {
           <img src={logo} height={60} width={60} />
           <p className="font-semibold">Medically</p>
         </div>
-        <p className="px-10 py-8 text-center bg-[#E2F3F2]">
+        <p className="px-10 py-8 text-center bg-[#E2F3F2] ">
           Copyright@2024 Medically.All Right reserved.
         </p>
       </div>

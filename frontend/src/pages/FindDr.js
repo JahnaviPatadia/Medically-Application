@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Search from "../components/Search";
 import DoctorCard from "../components/DoctorCard";
@@ -56,25 +56,33 @@ const FindDr = () => {
     },
   ];
 
+  const [search, setSearch] = useState("");
+  const handleSearchChanges = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredData = carddata.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  console.log(filteredData);
+
   return (
     <div>
-      <Navbar />
-      <Search />
+      <Search value={search} onChange={handleSearchChanges} />
 
       <div className="grid grid-cols-3">
-        {carddata.map((data) => {
-          return (
-            <DoctorCard
-              image={data.image}
-              name={data.name}
-              specialist={data.specialist}
-              experience={data.experience}
-              age={data.age}
-            />
-          );
-        })}
+        {filteredData.map((data, index) => (
+          <DoctorCard
+            key={index} // Add key prop here
+            image={data.image}
+            name={data.name}
+            specialist={data.specialist}
+            experience={data.experience}
+            age={data.age}
+          />
+        ))}
       </div>
-      <Footer />
     </div>
   );
 };

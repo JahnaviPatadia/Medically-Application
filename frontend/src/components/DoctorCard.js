@@ -1,7 +1,14 @@
 import React from "react";
 import image from "../assests/images/d1.png";
+import { useNavigate } from "react-router-dom";
 
 const DoctorCard = (props) => {
+  const navigate = useNavigate();
+
+  const goToDetails = (id) => {
+    navigate(`/doctor-list/${id}`);
+  };
+
   return (
     <div className="border mx-20 my-10">
       <div>
@@ -20,8 +27,11 @@ const DoctorCard = (props) => {
         <p className="mb-3 flex">
           <p className="font-semibold mr-2">Age: </p> {props.age}
         </p>
-        <button className="p-6 bg-[#005c69] py-2 px-5 text-white text-center mb-3">
-          Read More
+        <button
+          onClick={() => goToDetails(props.age)}
+          className="hover:bg-[#033838] p-6 bg-[#005c69] py-2 px-5 text-white text-center mb-3"
+        >
+          View
         </button>
       </div>
     </div>

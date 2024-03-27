@@ -10,7 +10,10 @@ const initialValues = {
   name: "",
   email: "",
   password: "",
-  contactnumber: "",
+  number: "",
+  degree: "",
+  experience: "",
+  address: "",
 };
 
 const SignupSchema = Yup.object({
@@ -19,7 +22,11 @@ const SignupSchema = Yup.object({
     .required("Please enter your email"),
   password: Yup.string().min(6).required("Please enter your password"),
   name: Yup.string().required("Please enter your name"),
-  contactnumber: Yup.number().required("Please enter your contact number"),
+  number: Yup.number().required("Please enter your contact number"),
+  degree: Yup.string().required("Please enter your degree"),
+  experience: Yup.number().required("Please enter your experience"),
+  address: Yup.string().required("Please enter your address"),
+  qualification: Yup.string().required("Please enter your qualififcation"),
 });
 
 const Signup = () => {
@@ -65,6 +72,8 @@ const Signup = () => {
           <select
             id="role"
             name="role"
+            onChange={formik.handleChange}
+            value={formik.values.role}
             className="shadow  border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
             <option value="patient">Patient</option>
@@ -84,7 +93,6 @@ const Signup = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-
             <ErrorMessage name="name" />
             <br />
             <label className="font-medium">Enter Your Email</label>
@@ -129,6 +137,64 @@ const Signup = () => {
             />
             <ErrorMessage name="number" />
             <br />
+
+            {formik.values.role === "doctor" && (
+              <div>
+                <label className="font-medium">Enter Your Degree</label>
+                <br />
+                <input
+                  type="text"
+                  placeholder="Degree"
+                  className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="degree"
+                  id="degree"
+                  value={formik.values.text}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                <ErrorMessage name="degree" />
+                <br />
+                <label className="font-medium">Enter Your Experience</label>
+                <br />
+                <input
+                  type="number"
+                  placeholder="Experience"
+                  className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="experience"
+                  id="experience"
+                  value={formik.values.experience}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                <ErrorMessage name="experience" />
+                <br />
+                <label className="font-medium">Enter Your Address</label>
+                <br />
+                <input
+                  type="text"
+                  placeholder="Address"
+                  className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="address"
+                  value={formik.values.address}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                <ErrorMessage name="address" />
+                <br />
+                <label className="font-medium">Enter Your Qualification</label>
+                <br />
+                <input
+                  type="text"
+                  placeholder="Qualification"
+                  className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outiline-none focus:shadow-outline"
+                  name="qualification"
+                  value={formik.values.qualification}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                <ErrorMessage name="qualification" />
+              </div>
+            )}
             <p className="underline cursor-pointer mb-2 mt-3">
               Forgot Password
             </p>
