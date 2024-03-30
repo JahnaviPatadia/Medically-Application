@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "../../assests/images/logo.jpg";
+import { Link } from 'react-router-dom'
 
 const Header = () => {
   return (
@@ -13,31 +14,31 @@ const Header = () => {
 
         {/* Navigation Menu */}
         <nav className="hidden lg:flex space-x-6">
-          <a href="#" className="font-semibold">
+          <Link to="/" className="font-semibold">
             Home
-          </a>
-          <a href="#" className="font-semibold">
-            About
-          </a>
-          <a href="#" className="font-semibold">
+          </Link>
+          <Link to="#" className="font-semibold">
             Services
-          </a>
-          <a href="#" className="font-semibold">
+          </Link>
+          <Link to="#" className="font-semibold">
             Contact
-          </a>
+          </Link>
+          <Link to="#" className="font-semibold">
+            About
+          </Link>
         </nav>
 
         {/* Login and Signup */}
         <div className="flex items-center space-x-4">
-          <a href="#" className="font-semibold">
+          <Link to={'/auth/login'} className="font-semibold">
             Login
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to={'/auth/signup'}
             className="bg-[#008891] text-white font-bold py-2 px-4 rounded-full inline-block transition duration-300"
           >
             Sign Up
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}

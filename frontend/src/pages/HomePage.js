@@ -20,7 +20,6 @@ const DoctorCard = ({ image, name, description, rating, views }) => {
         src={image}
         alt={name}
       />
-
       <div className="p-3 ">
         <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
         <p className="text-sm text-gray-600 mb-2">{description}</p>
@@ -83,7 +82,6 @@ const doctors = [
 const HomePage = () => {
   return (
     <>
-      <Header />
       <Lending />
       <div className="mx-10 mt-8 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-center">
@@ -206,7 +204,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <p className="text-4xl font-semibold mx-16 text-center">Contact Us</p>
         <div className="flex justify-center item-center border-2 border-black p-2  my-4 mt-8">
           <div className=" flex flex-col pr-40">
@@ -239,8 +237,7 @@ const HomePage = () => {
             <p className="pl-40 text-medium">medically112@gmail.com</p>
           </div>
         </div>
-      </div>
-      <Footer />
+      </div> */}
     </>
   );
 };

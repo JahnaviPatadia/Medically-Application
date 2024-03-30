@@ -20,11 +20,8 @@ const LoginSchema = Yup.object({
 });
 
 const Login = () => {
-  const navigate = useNavigate();
 
-  const goToSignup = () => {
-    navigate("/auth/signup");
-  };
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -37,10 +34,6 @@ const Login = () => {
   return (
     <FormikProvider value={formik}>
       <div className=" flex justify-center items-center min-h-screen">
-        <div
-          className=" bg-center bg-cover bg-no-repeat absolute inset-0 z-0"
-          style={{ backgroundImage: `url(${bg})` }}
-        ></div>
         <div className=" z-10 bg-white max-w-md w-full p-6 ">
           <div className="image flex justify-center items-center">
             <img src={logo} height={30} width={30}></img>
@@ -51,7 +44,7 @@ const Login = () => {
           <p className="">
             Don't have an account?
             <button
-              onClick={() => goToSignup()}
+              onClick={() => navigate("/auth/signup")}
               className="font-medium ml-1 mb-4 underline underline-offset-2"
             >
               Sign Up

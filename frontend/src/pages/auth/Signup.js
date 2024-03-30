@@ -1,6 +1,5 @@
 import React from "react";
 import logo from "../../assests/images/logo.jpg";
-import bg from "../../assests/images/Login.png";
 import { useFormik, ErrorMessage, FormikProvider } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -47,10 +46,6 @@ const Signup = () => {
   return (
     <FormikProvider value={formik}>
       <div className="flex justify-center items-center min-h-screen">
-        <div
-          className=" bg-center bg-cover bg-no-repeat fixed inset-0 z-0"
-          style={{ backgroundImage: `url(${bg})` }}
-        ></div>
         <div className="z-10 bg-white max-w-md w-full p-6 my-6">
           <div className="image flex justify-center items-center">
             <img src={logo} height={30} width={30}></img>
