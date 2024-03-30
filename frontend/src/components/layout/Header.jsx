@@ -6,11 +6,14 @@ const Header = () => {
   return (
     <header className="bg-[#E2F3F2] text-black shadow-md">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
+
         {/* Logo */}
-        <div className="flex items-center justify-center">
-          <img src={logo} height={60} width={60} />
-          <h2 className="font-semibold">Medically</h2>
-        </div>
+        <Link to="/">
+          <div className="flex items-center justify-center">
+            <img src={logo} height={60} width={60} />
+            <h2 className="font-semibold">Medically</h2>
+          </div>
+        </Link>
 
         {/* Navigation Menu */}
         <nav className="hidden lg:flex space-x-6">
@@ -31,13 +34,7 @@ const Header = () => {
         {/* Login and Signup */}
         <div className="flex items-center space-x-4">
           <Link to={'/auth/login'} className="font-semibold">
-            Login
-          </Link>
-          <Link
-            to={'/auth/signup'}
-            className="bg-[#008891] text-white font-bold py-2 px-4 rounded-full inline-block transition duration-300"
-          >
-            Sign Up
+            Create an Account / Login
           </Link>
         </div>
 

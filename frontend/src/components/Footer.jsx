@@ -4,7 +4,7 @@ import logo from "../assests/images/logo.jpg";
 const Footer = () => {
   return (
     <div>
-      <div className="flex justify-between items-center px-12 py-3 bg-[#E2F3F2] shadow shadow">
+      <div className="flex justify-between items-center px-12 py-3 bg-[#E2F3F2] shadow">
         <div className="flex justify-center items-center">
           <img src={logo} height={60} width={60} />
           <p className="font-semibold">Medically</p>

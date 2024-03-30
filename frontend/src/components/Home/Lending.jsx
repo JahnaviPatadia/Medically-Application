@@ -27,9 +27,6 @@ const Lending = () => {
           />
         </div>
       </div>
-      <div>
-        <p className="text-center mt-12 font-semibold text-2xl">Our Team</p>
-      </div>
     </div>
   );
 };
