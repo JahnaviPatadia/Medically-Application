@@ -64,15 +64,16 @@ const Login = () => {
             <input
               type="email"
               placeholder="Email"
-              className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className=" shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="email"
               id="email"
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-
-            <ErrorMessage name="email" />
+            <div className="text-red-600">
+              <ErrorMessage name="email" />
+            </div>
 
             <label className=" font-medium">
               <br />
@@ -90,9 +91,11 @@ const Login = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            <ErrorMessage className="text-red-500" name="password" />
+            <div className="text-red-600">
+              <ErrorMessage name="password" />
+            </div>
 
-            <p className=" underline cursor-pointer mb-2 mt-3">
+            <p className=" pl-64  underline cursor-pointer mb-2 mt-3">
               Forget password?
             </p>
             <button

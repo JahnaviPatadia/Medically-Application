@@ -93,7 +93,10 @@ const Signup = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            <ErrorMessage name="name" />
+            <div className="text-red-600">
+              <ErrorMessage name="name" />
+            </div>
+
             <br />
             <label className="font-medium">Enter Your Email</label>
             <br />
@@ -107,7 +110,10 @@ const Signup = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            <ErrorMessage name="email" />
+            <div className="text-red-600">
+              <ErrorMessage name="email" />
+            </div>
+
             <br />
             <label className="font-medium">Enter Your Password</label>
             <br />
@@ -121,7 +127,10 @@ const Signup = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            <ErrorMessage name="password" />
+            <div className="text-red-600">
+              <ErrorMessage name="password" />
+            </div>
+
             <br />
             <label className="font-medium">Enter Your Contact Number</label>
             <br />
@@ -135,7 +144,10 @@ const Signup = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            <ErrorMessage name="number" />
+            <div className="text-red-600">
+              <ErrorMessage name="number" />
+            </div>
+
             <br />
 
             {formik.values.role === "doctor" && (
@@ -152,7 +164,10 @@ const Signup = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                <ErrorMessage name="degree" />
+                <div className="text-red-600">
+                  <ErrorMessage name="degree" />
+                </div>
+
                 <br />
                 <label className="font-medium">Enter Your Experience</label>
                 <br />
@@ -166,7 +181,10 @@ const Signup = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                <ErrorMessage name="experience" />
+                <div className="text-red-600">
+                  <ErrorMessage name="experience" />
+                </div>
+
                 <br />
                 <label className="font-medium">Enter Your Address</label>
                 <br />
@@ -179,7 +197,10 @@ const Signup = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                <ErrorMessage name="address" />
+                <div className="text-red-600">
+                  <ErrorMessage name="address" />
+                </div>
+
                 <br />
                 <label className="font-medium">Enter Your Qualification</label>
                 <br />
@@ -192,10 +213,12 @@ const Signup = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                <ErrorMessage name="qualification" />
+                <div className="text-red-600">
+                  <ErrorMessage name="qualification" />
+                </div>
               </div>
             )}
-            <p className="underline cursor-pointer mb-2 mt-3">
+            <p className="underline cursor-pointer mb-2 mt-3 pl-64">
               Forgot Password
             </p>
             <button
