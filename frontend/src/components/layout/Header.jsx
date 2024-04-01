@@ -11,9 +11,9 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-[#E2F3F2] text-black shadow-md flex items-center justify-between">
+      <header className="bg-[#E2F3F2] text-black shadow-md flex items-center justify-between w-full">
         <div
-          className={`lg:container lg:mx-auto flex lg:items-center justify-between py-4 px-6 ${
+          className={`lg:container lg:mx-auto flex lg:items-center justify-between py-4 px-6 w-[90%] ${
             isMenuOpen ? "flex-col" : "flex-row"
           }`}
         >
