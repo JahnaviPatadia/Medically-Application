@@ -20,7 +20,6 @@ const LoginSchema = Yup.object({
 });
 
 const Login = () => {
-
   const navigate = useNavigate();
 
   const formik = useFormik({
