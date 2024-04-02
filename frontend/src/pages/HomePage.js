@@ -16,9 +16,9 @@ import image7 from "../assests/images/dermatology1.jpg";
 import image8 from "../assests/images/immunology1.jpg";
 import image9 from "../assests/images/dentist1.jpg";
 import Intro from "../components/Home/Intro";
+import Testimonial from "../components/Home/Testimonial";
 
 const HomePage = () => {
-
   return (
     <>
       <div className="space-container">
@@ -83,7 +83,7 @@ const HomePage = () => {
             <p className="  text-3xl text-center mt-12 ">Our Services</p>
           </div>
           <div className="flex flex-col lg:flex-row  mx-12 mt-12 gap-12">
-            <div className="bg-[#008891] p-4 rounded text-white">
+            <div className="bg-[#008891] p-4 rounded-lg text-white">
               <div>
                 <img
                   className="text-center mx-auto mb-4"
@@ -96,12 +96,13 @@ const HomePage = () => {
               <p className="mt-4 text-justify">
                 Immunology is the study of the immune system and is a very
                 important branch of the medical and biological sciences. The
-                immune system protects us from infection through various lines of
-                defence. If the immune system is not functioning as it should, it
-                can result in disease, such as autoimmunity, allergy and cancer
+                immune system protects us from infection through various lines
+                of defence. If the immune system is not functioning as it
+                should, it can result in disease, such as autoimmunity, allergy
+                and cancer
               </p>
             </div>
-            <div className="bg-[#008891] p-4 rounded text-white">
+            <div className="bg-[#008891] p-4 rounded-lg text-white">
               <div>
                 <img
                   className="text-center mx-auto mb-4"
@@ -113,12 +114,12 @@ const HomePage = () => {
               <p className="font-semibold text-2xl text-center">Dermatology</p>
               <p className="mt-4 text-justify">
                 Dermatology involves the study, research, diagnosis, and
-                management of any health conditions that may affect the skin, fat
-                hair, nails, and membranes. A dermatologist is the health
+                management of any health conditions that may affect the skin,
+                fat hair, nails, and membranes. A dermatologist is the health
                 professional who specializes in this area of healthcare.
               </p>
             </div>
-            <div className="bg-[#008891] p-4 rounded text-white">
+            <div className="bg-[#008891] p-4 rounded-lg text-white">
               <div>
                 <img
                   className="text-center mx-auto mb-4"
@@ -138,7 +139,7 @@ const HomePage = () => {
             </div>
           </div>
           <div className="flex flex-col lg:flex-row gap-6 mx-12 mt-12 gap-12">
-            <div className="bg-[#008891] p-4 rounded text-white">
+            <div className="bg-[#008891] p-4 rounded-lg text-white">
               <div>
                 <img
                   className="text-center mx-auto mb-4"
@@ -151,12 +152,12 @@ const HomePage = () => {
               <p className="mt-4 text-justify">
                 Haematologists are specialist doctors who diagnose and treat all
                 kinds of blood diseases. Many different health issues can affect
-                the blood, from anaemias to cancers. Your haematologist may refer
-                you for a range of medical tests, and prescribe treatments for
-                your blood condition.
+                the blood, from anaemias to cancers. Your haematologist may
+                refer you for a range of medical tests, and prescribe treatments
+                for your blood condition.
               </p>
             </div>
-            <div className="bg-[#008891] p-4 rounded text-white">
+            <div className="bg-[#008891] p-4 rounded-lg text-white">
               <div>
                 <img
                   className="text-center mx-auto mb-4"
@@ -174,7 +175,7 @@ const HomePage = () => {
                 tinnitus and hearing loss. Difficulty swallowing.
               </p>
             </div>
-            <div className="bg-[#008891] p-4 rounded text-white">
+            <div className="bg-[#008891] p-4 rounded-lg text-white">
               <div>
                 <img
                   className="text-center mx-auto mb-4"
@@ -185,15 +186,18 @@ const HomePage = () => {
               </div>
               <p className="font-semibold text-2xl text-center">Cardiologist</p>
               <p className="mt-4 text-justify">
-                A cardiologist is a medical doctor who studies and treats diseases
-                and conditions of the cardiovascular system, the heart and blood
-                vessels, including heart rhythm disorders, coronary artery
-                disease, heart attacks, heart defects and infections, and related
-                disorders.
+                A cardiologist is a medical doctor who studies and treats
+                diseases and conditions of the cardiovascular system, the heart
+                and blood vessels, including heart rhythm disorders, coronary
+                artery disease, heart attacks, heart defects and infections, and
+                related disorders.
               </p>
             </div>
           </div>
         </div>
+      </div>
+      <div className="space-container">
+        <Testimonial />
       </div>
     </>
   );
