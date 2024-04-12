@@ -12,7 +12,5 @@ body {
   box-sizing: border-box !important;
 }
 
-
 /* here import css files */
-@import './default.css';
-
+@import "./default.css";

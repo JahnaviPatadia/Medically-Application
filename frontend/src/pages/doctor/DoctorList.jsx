@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Search from "../../components/Search";
 import DoctorCard from "../../components/DoctorCard";
+import DropDown from "../../components/DropDown";
 
 import image1 from "../../assests/images/d1.png";
 import image2 from "../../assests/images/d7.png";
@@ -49,57 +50,73 @@ const DoctorList = () => {
     {
       image: image6,
       name: "Reena Kumari",
-      specialist: "Gynecologist",
+      specialist: "ENT",
       experience: "6 Years",
       age: "36 Years",
     },
   ];
 
+  const options = [
+    { value: "Dermatologies", label: "Dermatologies" },
+    { value: "Immunologies", label: "Immunologies" },
+    { value: "Cardiologist", label: "Cardiologist" },
+    { value: "Hematologists", label: "Hematologists" },
+    { value: "ENT", label: "ENT" },
+    { value: "Dentist", label: "Dentist" },
+  ];
+
   const [search, setSearch] = useState("");
-  const handleSearchChanges = (e) => {
+  const [filteredData, setFilteredData] = useState(carddata);
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const handleSearch = (e) => {
     setSearch(e.target.value);
+    filterData(e.target.value, selectedOption);
   };
 
-  const filteredData = carddata.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const handleDropDownChange = (selectedOption) => {
+    setSelectedOption(selectedOption);
+    filterData(search, selectedOption);
+  };
 
-  console.log(filteredData);
+  const filterData = (search, selectedOption) => {
+    let filtered = carddata;
 
-  function Dropdown() {
-    const [selectedOption, setSelectedOption] = useState("");
+    // Filter by search input
+    if (search) {
+      filtered = filtered.filter(
+        (item) =>
+          item.name.toLowerCase().includes(search.toLowerCase()) ||
+          item.specialist.toLowerCase().includes(search.toLowerCase())
+      );
+    }
 
-    const handleChange = (Event) => {
-      const handleChange = (Event) => {
-        setSelectedOption(Event.target.value);
-      };
-    };
-  }
+    // Filter by dropdown selection
+
+    if (selectedOption && selectedOption.value !== "") {
+      filtered = filtered.filter(
+        (item) => item.specialist === selectedOption.value
+      );
+    }
+
+    setFilteredData(filtered);
+  };
 
   return (
     <>
-      <div className="flex">
-        <Search value={search} onChange={handleSearchChanges} />
-        <div className="mt-8">
-          <labe className="dropdown pl-28 mr-4 mt-4 ">Categories</labe>
-          <select
-            className="border border-inheri hover:bg-sky-700 cursor-pointer"
-            id="dropdown"
-          >
-            <option value="Dermatologies">Dermatologies</option>
-            <option value="Immunologies">Immunologies</option>
-            <option value="Cardiologist">Cardiologist</option>
-            <option value="Hematologist">Hematologist</option>
-            <option value="Gaynecologist">Gaynecologist</option>
-            <option value="Dentist">Dentist</option>
-          </select>
-        </div>
+      <div className="flex mt-8 item-center justify-around mx-32 gap-16">
+        <DropDown
+          options={options}
+          selectedOption={selectedOption}
+          setData={setFilteredData}
+        />
+        <Search handleSearch={handleSearch} />
       </div>
 
       <div className="grid grid-cols-3 text-center">
         {filteredData.map((data, index) => (
           <DoctorCard
-            key={index} // Add key prop here
+            key={index}
             image={data.image}
             name={data.name}
             specialist={data.specialist}

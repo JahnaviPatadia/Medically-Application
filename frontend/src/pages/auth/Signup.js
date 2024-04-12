@@ -3,29 +3,53 @@ import logo from "../../assests/images/logo.jpg";
 import { useFormik, ErrorMessage, FormikProvider } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import Select from "react-select";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialValues = {
   role: "",
-  name: "",
+  firstname: "",
+  lastname: "",
   email: "",
   password: "",
-  number: "",
+  confirmpassword: "",
+  phoneno: "", // Changed from 'number' to 'phoneno'
   degree: "",
   experience: "",
+  state: "",
+  city: "",
   address: "",
+  specialization: "",
+  pincode: "",
 };
+
+const options = [
+  { value: "Gujarat", label: "Gujarat" },
+  { value: "Rajasthan", label: "Rajasthan" },
+  { value: "Maharastra", label: "Maharashtra" },
+];
 
 const SignupSchema = Yup.object({
   email: Yup.string()
     .email("Invalid Email")
     .required("Please enter your email"),
   password: Yup.string().min(6).required("Please enter your password"),
-  name: Yup.string().required("Please enter your name"),
-  number: Yup.number().required("Please enter your contact number"),
+  confirmpassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Please confirm your password"),
+  firstname: Yup.string().required("Please enter your first name"),
+  lastname: Yup.string().required("Please enter your last name"),
+  phoneno: Yup.string().required("Please enter your contact number"),
   degree: Yup.string().required("Please enter your degree"),
-  experience: Yup.number().required("Please enter your experience"),
+  experience: Yup.string().required("Please enter your experience"), // Changed from 'number' to 'string'
+  city: Yup.string().required("Please enter your city"),
+  state: Yup.string().required("Please enter your state"),
   address: Yup.string().required("Please enter your address"),
-  qualification: Yup.string().required("Please enter your qualififcation"),
+  qualification: Yup.string().required("Please enter your qualification"),
+  specialization: Yup.string().required("Please enter your specialization"),
+  pincode: Yup.number().required("Please enter your pincode"),
 });
 
 const Signup = () => {
@@ -38,8 +62,22 @@ const Signup = () => {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: SignupSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/sign-up",
+          values
+        );
+        if (response.data.code === 200) {
+          toast.success(response.data.message);
+          navigate("/auth/login");
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error:", error.response.data);
+        toast.error("Failed to sign up. Please try again later.");
+      }
     },
   });
 
@@ -76,28 +114,46 @@ const Signup = () => {
           </select>
           <div className="border-b-2 border border-[#d0d5dd] mb-1"></div>
           <form className="signupform" onSubmit={formik.handleSubmit}>
-            <label className="font-medium">Enter Your Name</label>
+            <label className="font-medium">First Name</label>
             <br />
+
             <input
               type="text"
-              placeholder=" Name"
+              placeholder="Enter Your First Name"
               className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="name"
-              id="name"
-              value={formik.values.name}
+              name="firstname"
+              id="firstname"
+              value={formik.values.firstname}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
             <div className="text-red-600">
-              <ErrorMessage name="name" />
+              <ErrorMessage name="firstname" />
             </div>
 
             <br />
-            <label className="font-medium">Enter Your Email</label>
+            <label className="font-medium">Last Name</label>
+            <br />
+            <input
+              type="text"
+              placeholder="Enter Your Last Name"
+              className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="lastname"
+              id="lastname"
+              value={formik.values.lastname}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <div className="text-red-600">
+              <ErrorMessage name="lastname" />
+            </div>
+
+            <br />
+            <label className="font-medium">Email</label>
             <br />
             <input
               type="email"
-              placeholder=" Email"
+              placeholder="Enter Your Email"
               className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="email"
               id="email"
@@ -110,11 +166,11 @@ const Signup = () => {
             </div>
 
             <br />
-            <label className="font-medium">Enter Your Password</label>
+            <label className="font-medium">Password</label>
             <br />
             <input
               type="password"
-              placeholder=" Password"
+              placeholder="Enter Your Password"
               className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="password"
               id="password"
@@ -127,14 +183,69 @@ const Signup = () => {
             </div>
 
             <br />
-            <label className="font-medium">Enter Your Contact Number</label>
+            <label className="font-medium">Confirm Password</label>
             <br />
             <input
-              type="number"
-              placeholder="Number"
+              type="password"
+              placeholder="Enter Your Confirm Password"
+              className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="confirmpassword"
+              id="confirmpassword"
+              value={formik.values.confirmpassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <div className="text-red-600">
+              <ErrorMessage name="password" />
+            </div>
+
+            <br />
+            <label className=" font-medium">Select Your Gender</label>
+            <div className="ml-8 ">
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  checked={formik.values.gender === "male"}
+                />
+                <span className="ml-2">Male</span>
+              </label>
+              <label className="inline-flex items-center ml-4">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="female"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  checked={formik.values.gender === "female"}
+                />
+                <span className="ml-2">Female</span>
+              </label>
+              <label className="inline-flex items-center ml-4">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="other"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  checked={formik.values.gender === "other"}
+                />
+                <span className="ml-2">Other</span>
+              </label>
+            </div>
+            <br />
+            <label className="font-medium">Contact Number</label>
+            <br />
+            <input
+              type="text"
+              placeholder="Enter Your Contact Number"
               className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="number"
               id="number"
+              maxLength={10}
               value={formik.values.number}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -147,11 +258,11 @@ const Signup = () => {
 
             {formik.values.role === "doctor" && (
               <div>
-                <label className="font-medium">Enter Your Degree</label>
+                <label className="font-medium">Degree</label>
                 <br />
                 <input
                   type="text"
-                  placeholder="Degree"
+                  placeholder="Enter Your Degree"
                   className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   name="degree"
                   id="degree"
@@ -164,11 +275,11 @@ const Signup = () => {
                 </div>
 
                 <br />
-                <label className="font-medium">Enter Your Experience</label>
+                <label className="font-medium">Experience</label>
                 <br />
                 <input
                   type="number"
-                  placeholder="Experience"
+                  placeholder="Enter Your Experience"
                   className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   name="experience"
                   id="experience"
@@ -181,11 +292,101 @@ const Signup = () => {
                 </div>
 
                 <br />
-                <label className="font-medium">Enter Your Address</label>
+                <label className="font-medium">Qualification</label>
                 <br />
                 <input
                   type="text"
-                  placeholder="Address"
+                  placeholder="Enter Your Qualification"
+                  className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="qualification"
+                  value={formik.values.qualification}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                <div className="text-red-600">
+                  <ErrorMessage name="qualification" />
+                </div>
+
+                <br />
+                <label className="font-medium">Specialization</label>
+                <br />
+                <input
+                  type="text"
+                  placeholder="Enter Your Specialization"
+                  className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="specialization"
+                  value={formik.values.qualification}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                <div className="text-red-600">
+                  <ErrorMessage name="specialization" />
+                </div>
+
+                <br />
+                <label className="font-medium ">State</label>
+                <br />
+                <Select
+                  className="shadow"
+                  name="state"
+                  options={options}
+                  value={formik.values.state}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 0,
+                    colors: {
+                      ...theme.colors,
+                      primary25: "#e2f3f2",
+                      primary: "#005c69",
+                    },
+                  })}
+                />
+                <div className="text-red-600">
+                  <ErrorMessage name="state" />
+                </div>
+
+                <br />
+                <label className="font-medium">City</label>
+                <br />
+                <input
+                  type="text"
+                  placeholder="Enter Your City"
+                  className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="city"
+                  id="city"
+                  value={formik.values.city}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                <div className="text-red-600">
+                  <ErrorMessage name="city" />
+                </div>
+
+                <br />
+                <label className="font-medium">Pincode</label>
+                <br />
+                <input
+                  type="number"
+                  placeholder="Enter Your Pincode"
+                  className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  name="pincode"
+                  id="number"
+                  value={formik.values.pincode}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                <div className="text-red-600">
+                  <ErrorMessage name="pincode" />
+                </div>
+
+                <br />
+                <label className="font-medium">Address</label>
+                <br />
+                <input
+                  type="text"
+                  placeholder="Enter Your Address"
                   className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   name="address"
                   value={formik.values.address}
@@ -194,22 +395,6 @@ const Signup = () => {
                 />
                 <div className="text-red-600">
                   <ErrorMessage name="address" />
-                </div>
-
-                <br />
-                <label className="font-medium">Enter Your Qualification</label>
-                <br />
-                <input
-                  type="text"
-                  placeholder="Qualification"
-                  className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outiline-none focus:shadow-outline"
-                  name="qualification"
-                  value={formik.values.qualification}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                <div className="text-red-600">
-                  <ErrorMessage name="qualification" />
                 </div>
               </div>
             )}

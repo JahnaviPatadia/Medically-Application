@@ -1,10 +1,12 @@
 import React from "react";
-
+import axios from "axios";
 import logo from "../../assests/images/logo.jpg";
 import bg from "../../assests/images/Login.png";
 import { useFormik, ErrorMessage, FormikProvider } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import { LoginSchema } from "../schemas";
 
 const initialValues = {
@@ -25,8 +27,22 @@ const Login = () => {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: LoginSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(values);
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/sign-in",
+          values
+        );
+        if (response.data.code === 200) {
+          toast.success(response.data.message);
+          navigate("/doctor-list");
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -51,11 +67,11 @@ const Login = () => {
           </p>
           <div className="border-b-2 border-[#d0d5dd] mb-4"></div>
           <form className="loginform" onSubmit={formik.handleSubmit}>
-            <label className=" font-medium">Enter Your Email</label>
+            <label className=" font-medium">Email</label>
             <br />
             <input
               type="email"
-              placeholder="Email"
+              placeholder="Enter Your Email"
               className=" shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="email"
               id="email"
@@ -69,13 +85,12 @@ const Login = () => {
 
             <label className=" font-medium">
               <br />
-              <br />
-              Enter Your Password
+              Password
             </label>
             <br />
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Enter Your Password"
               className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               name="password"
               id="password"

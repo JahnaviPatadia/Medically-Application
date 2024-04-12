@@ -32,7 +32,7 @@ const Testimonial = () => {
               width={150}
             />
 
-            <p className="text-justify mt-4">
+            <p className="flex flex-col lg:flex-row text-justify mt-4">
               Dermatologists are medical doctors who specialize in diagnosing
               and treating diseases of the skin, hair, nails and mucus membrane.
               Some dermatologists are also surgeons.
@@ -72,7 +72,7 @@ const Testimonial = () => {
               help you reduce your risk.
             </p>
             <p className="font-semibold mt-4 text-2xl text-center">
-              Dr.Reema Vyas
+              Dr. Reema Vyas
             </p>
           </SwiperSlide>
           <SwiperSlide>
