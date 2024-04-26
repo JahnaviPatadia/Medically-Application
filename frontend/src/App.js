@@ -3,14 +3,17 @@ import Header from "./components/layout/Header";
 import Footer from "./components/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useLocation } from "react-router-dom";
 
 function App() {
+  const location = useLocation();
+  console.log(location.pathname);
   return (
     <>
       <ToastContainer autoClose={2000} />
-      <Header />
+      {!location.pathname.startsWith("/admin") && <Header />}
       <Routers />
-      <Footer />
+      {!location.pathname.startsWith("/admin") && <Footer />}
     </>
   );
 }

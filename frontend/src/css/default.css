@@ -1,3 +1,10 @@
-.space-container{
-    @apply w-[90%] m-auto
+.space-container {
+  @apply w-[90%] m-auto;
+}
+
+.site-container {
+  @apply xl:container lg:container md:container sm:container container mx-auto;
+}
+.section_spacing {
+  @apply py-8 md:py-4;
 }

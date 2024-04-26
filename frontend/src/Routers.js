@@ -6,6 +6,13 @@ import HomePage from "./pages/HomePage";
 import DoctorList from "./pages/doctor/DoctorList";
 import DoctorDetail from "./pages/doctor/DoctorDetail";
 import Header from "./components/layout/Header";
+import DoctorDashboard from "./pages/doctor/DoctorDashboard";
+import AdminLogin from "./Admin/pages/AdminLogin";
+//import AdminLayout from "./Admin/pages/AdminLayout";
+import AdminDashboard from "./Admin/pages/dashboard/AdminDashboard";
+import Patient from "./Admin/pages/patient/Patient";
+import Doctor from "./Admin/pages/doctor/Doctor";
+import Dashboard from "./Admin/pages/Dashboard";
 
 const Routers = () => {
   return (
@@ -15,6 +22,13 @@ const Routers = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/doctor-list" element={<DoctorList />} />
       <Route path="/doctor-list/:id" element={<DoctorDetail />} />
+      <Route path="/doctor-dashboard" element={<DoctorDashboard />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />}>
+        <Route index element={<Dashboard />} />
+        <Route path="patient" element={<Patient />} />
+        <Route path="doctor" element={<Doctor />} />
+      </Route>
     </Routes>
   );
 };

@@ -15,15 +15,21 @@ const initialValues = {
   email: "",
   password: "",
   confirmpassword: "",
-  phoneno: "", // Changed from 'number' to 'phoneno'
+  phoneno: "",
   degree: "",
   experience: "",
   state: "",
   city: "",
+  userStatus: "Active",
   address: "",
   specialization: "",
   pincode: "",
 };
+
+const roleOptions = [
+  { value: "Patient", label: "Patient" },
+  { value: "Doctor", label: "Doctor" },
+];
 
 const options = [
   { value: "Gujarat", label: "Gujarat" },
@@ -42,14 +48,41 @@ const SignupSchema = Yup.object({
   firstname: Yup.string().required("Please enter your first name"),
   lastname: Yup.string().required("Please enter your last name"),
   phoneno: Yup.string().required("Please enter your contact number"),
-  degree: Yup.string().required("Please enter your degree"),
-  experience: Yup.string().required("Please enter your experience"), // Changed from 'number' to 'string'
-  city: Yup.string().required("Please enter your city"),
-  state: Yup.string().required("Please enter your state"),
-  address: Yup.string().required("Please enter your address"),
-  qualification: Yup.string().required("Please enter your qualification"),
-  specialization: Yup.string().required("Please enter your specialization"),
-  pincode: Yup.number().required("Please enter your pincode"),
+  degree: Yup.string().when("role", {
+    is: "Doctor",
+    then: () => Yup.string().required("Degree is required"),
+    otherwise: () => Yup.string().notRequired(),
+  }),
+  experience: Yup.string().when("role", {
+    is: "Doctor",
+    then: () => Yup.string().required("Experience is required"),
+    otherwise: () => Yup.string().notRequired(),
+  }),
+  city: Yup.string().when("role", {
+    is: "Doctor",
+    then: () => Yup.string().required("City is required"),
+    otherwise: () => Yup.string().notRequired(),
+  }),
+  state: Yup.string().when("role", {
+    is: "Doctor",
+    then: () => Yup.string().required("State is required"),
+    otherwise: () => Yup.string().notRequired(),
+  }),
+  address: Yup.string().when("role", {
+    is: "Doctor",
+    then: () => Yup.string().required("Address is required"),
+    otherwise: () => Yup.string().notRequired(),
+  }),
+  specialization: Yup.string().when("role", {
+    is: "Doctor",
+    then: () => Yup.string().required("Specialization is required"),
+    otherwise: () => Yup.string().notRequired(),
+  }),
+  pincode: Yup.string().when("role", {
+    is: "Doctor",
+    then: () => Yup.string().required("Pincode is required"),
+    otherwise: () => Yup.string().notRequired(),
+  }),
 });
 
 const Signup = () => {
@@ -58,28 +91,33 @@ const Signup = () => {
   const goToLogin = () => {
     navigate("/auth/login");
   };
-
+  const handleSubmit = async (values) => {
+    try {
+      values = { ...values, userStatus: "Active" };
+      const response = await axios.post(
+        "http://localhost:3001/api/sign-up",
+        values
+      );
+      console.log(response);
+      if (response.data.code === 200) {
+        toast.success(response.data.message);
+        navigate("/auth/login");
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error.response.data);
+      toast.error("Failed to sign up. Please try again later.");
+    }
+  };
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: SignupSchema,
-    onSubmit: async (values) => {
-      try {
-        const response = await axios.post(
-          "http://localhost:3001/api/sign-up",
-          values
-        );
-        if (response.data.code === 200) {
-          toast.success(response.data.message);
-          navigate("/auth/login");
-        } else {
-          toast.error(response.data.message);
-        }
-      } catch (error) {
-        console.error("Error:", error.response.data);
-        toast.error("Failed to sign up. Please try again later.");
-      }
-    },
+    onSubmit: handleSubmit,
   });
+
+  // console.log(formik.values);
+  console.log(formik.errors);
 
   return (
     <FormikProvider value={formik}>
@@ -99,20 +137,20 @@ const Signup = () => {
               Login
             </button>
           </p>
-
+          <div className="border-b-2 border border-[#d0d5dd] mb-1"></div>
           <label className="font-medium">Select Your Role</label>
           <br />
-          <select
+          <Select
             id="role"
             name="role"
-            onChange={formik.handleChange}
-            value={formik.values.role}
-            className="shadow  border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          >
-            <option value="patient">Patient</option>
-            <option value="doctor">Doctor</option>
-          </select>
-          <div className="border-b-2 border border-[#d0d5dd] mb-1"></div>
+            options={roleOptions}
+            onChange={(e) => {
+              formik.setFieldValue("role", e?.value);
+            }}
+            onBlur={formik.handleBlur}
+            className="mb-4"
+          />
+
           <form className="signupform" onSubmit={formik.handleSubmit}>
             <label className="font-medium">First Name</label>
             <br />
@@ -243,10 +281,10 @@ const Signup = () => {
               type="text"
               placeholder="Enter Your Contact Number"
               className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="number"
-              id="number"
+              name="phoneno"
+              id="phoneno"
               maxLength={10}
-              value={formik.values.number}
+              value={formik.values.phoneno}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -256,7 +294,7 @@ const Signup = () => {
 
             <br />
 
-            {formik.values.role === "doctor" && (
+            {formik.values.role === "Doctor" && (
               <div>
                 <label className="font-medium">Degree</label>
                 <br />
@@ -266,7 +304,7 @@ const Signup = () => {
                   className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   name="degree"
                   id="degree"
-                  value={formik.values.text}
+                  value={formik.values.degree}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
@@ -292,22 +330,6 @@ const Signup = () => {
                 </div>
 
                 <br />
-                <label className="font-medium">Qualification</label>
-                <br />
-                <input
-                  type="text"
-                  placeholder="Enter Your Qualification"
-                  className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  name="qualification"
-                  value={formik.values.qualification}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                <div className="text-red-600">
-                  <ErrorMessage name="qualification" />
-                </div>
-
-                <br />
                 <label className="font-medium">Specialization</label>
                 <br />
                 <input
@@ -315,7 +337,7 @@ const Signup = () => {
                   placeholder="Enter Your Specialization"
                   className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   name="specialization"
-                  value={formik.values.qualification}
+                  value={formik.values.specialization}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
@@ -330,8 +352,9 @@ const Signup = () => {
                   className="shadow"
                   name="state"
                   options={options}
-                  value={formik.values.state}
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    formik.setFieldValue("state", e?.value);
+                  }}
                   onBlur={formik.handleBlur}
                   theme={(theme) => ({
                     ...theme,
