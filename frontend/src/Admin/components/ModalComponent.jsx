@@ -15,14 +15,14 @@ const ModalComponent = ({ isOpen, closeModal, children }) => {
           <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
             <div className="p-4">
               {children}
-              <div className="mt-4 flex justify-end">
+              {/* <div className="mt-4 flex justify-end">
                 <button
                   onClick={closeModal}
                   className="text-white bg-gray-500 hover:bg-gray-600 rounded-md px-4 py-2 mr-2"
                 >
                   Close
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

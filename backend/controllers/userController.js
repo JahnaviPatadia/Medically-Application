@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 
 // @DESC: SingUp User | @Access - Public | Route: /api/sign-up
 const signUp = asyncHandler(async (req, res) => {
-  console.log("pasword", req.body);
   const {
     firstname,
     lastname,
@@ -25,26 +24,7 @@ const signUp = asyncHandler(async (req, res) => {
     qualification,
     specialization,
   } = req.body;
-  // if (
-  //   !firstname ||
-  //   !lastname ||
-  //   !role ||
-  //   !email ||
-  //   !password ||
-  //   !dob ||
-  //   !phoneno ||
-  //   !gender ||
-  //   !state ||
-  //   !city ||
-  //   !pincode ||
-  //   !address ||
-  //   !experience ||
-  //   !qualification ||
-  //   !specialization
-  // ) {
-  //   res.status(400);
-  //   throw new Error("All the fields are mandatory");
-  // }
+
   const userAvailable = await User.findOne({ email });
 
   if (userAvailable) {
@@ -52,10 +32,7 @@ const signUp = asyncHandler(async (req, res) => {
     throw new Error("User already registered");
   }
 
-  //Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
-
-  console.log("Hashed Password: ", hashedPassword);
   const user = await User.create({
     role,
     firstname,
@@ -75,15 +52,13 @@ const signUp = asyncHandler(async (req, res) => {
     qualification,
     specialization,
   });
-  console.log(`User created ${user}`);
+
   if (user) {
     res.json({ message: "User Created !!", data: user, code: 200 });
   } else {
     res.json({ message: "User data is not valid" });
     throw new Error("User data is not valid");
   }
-
-  // res.json({ message: "Register the user" });
 });
 
 // @DESC: SingIn User | @Access - Public | Route: /api/sign-in
@@ -96,7 +71,6 @@ const singIn = asyncHandler(async (req, res) => {
     }
 
     const user = await User.findOne({ email });
-    //compare password with hashedpassword
     if (user && (await bcrypt.compare(password, user.password))) {
       const accessToken = jwt.sign(
         {
@@ -115,6 +89,7 @@ const singIn = asyncHandler(async (req, res) => {
       return res.json({ message: "Something Went Wrong", code: 400 });
     }
   } catch (error) {
+    console.log(error);
     return res.json({ message: "Internal Server Error" });
   }
 });
@@ -133,6 +108,7 @@ const getAllUser = asyncHandler(async (req, res) => {
       return res.json({ message: "Something went wrong !!!", code: 204 });
     }
   } catch (error) {
+    console.log(error);
     return res.json({ message: "Internal Server Error" });
   }
 });
@@ -165,7 +141,6 @@ const updatePatient = async (req, res) => {
     const response = await User.findByIdAndUpdate(patientId, req?.body, {
       new: true,
     });
-    console.log(response);
     if (response) {
       return res.json({ message: "Patient Updated !!", code: 200 });
     } else {
@@ -180,7 +155,6 @@ const updatePatient = async (req, res) => {
 const deletePatient = async (req, res) => {
   try {
     const patientId = req.params.id;
-
     const response = await User.deleteOne({ _id: patientId });
 
     if (response) {
@@ -189,16 +163,14 @@ const deletePatient = async (req, res) => {
       return res.json({ message: "Something went wrong !!!", code: 204 });
     }
   } catch (error) {
+    console.log(error);
     return res.json({ message: "Internal server error" });
   }
 };
 
 const getAllPatient = asyncHandler(async (req, res) => {
   try {
-    // console.log(req?.body);
     const response = await User.find({ role: "Patient" });
-    // console.log(response);
-
     if (response) {
       return res.json({
         message: "Successfully GET !!",
@@ -209,16 +181,14 @@ const getAllPatient = asyncHandler(async (req, res) => {
       return res.json({ message: "Something went wrong !!!", code: 204 });
     }
   } catch (error) {
+    console.log(error);
     return res.json({ message: "Internal Server Error" });
   }
 });
 
 const getAllDoctor = asyncHandler(async (req, res) => {
   try {
-    // console.log(req?.body);
     const response = await User.find({ role: "Doctor" });
-    // console.log(response);
-
     if (response) {
       return res.json({
         message: "Successfully GET !!",
@@ -229,6 +199,7 @@ const getAllDoctor = asyncHandler(async (req, res) => {
       return res.json({ message: "Something went wrong !!!", code: 204 });
     }
   } catch (error) {
+    console.log(error);
     return res.json({ message: "Internal Server Error" });
   }
 });
@@ -240,7 +211,6 @@ const updateDoctor = async (req, res) => {
       role,
       firstname,
       lastname,
-
       degree,
       specialization,
       experience,
@@ -251,7 +221,7 @@ const updateDoctor = async (req, res) => {
     const response = await User.findByIdAndUpdate(doctorId, req?.body, {
       new: true,
     });
-    console.log(response);
+
     if (response) {
       return res.json({ message: "Doctor Updated !!", code: 200 });
     } else {
@@ -267,9 +237,12 @@ const getAllUsers = asyncHandler(async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
-    const search = req.query.search || "";
     const skip = (page - 1) * limit;
+
+    // here all string filter
     const role = req.query.role;
+    const search = req.query.search || "";
+
     let query = {};
 
     if (role !== undefined && role !== null && role !== "") {
@@ -278,12 +251,12 @@ const getAllUsers = asyncHandler(async (req, res) => {
 
     const totalUser = await User.countDocuments({
       firstname: { $regex: search, $options: "i" },
-      ...query,
     });
+
+    console.log(totalUser);
     const totalPages = Math.ceil(totalUser / limit);
     const user = await User.find({
       firstname: { $regex: search, $options: "i" },
-      ...query,
     })
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -300,6 +273,52 @@ const getAllUsers = asyncHandler(async (req, res) => {
       code: 200,
     });
   } catch (error) {
+    console.log(error);
+    return res.json({ message: "Internal Server Error" });
+  }
+});
+
+const getUsers = asyncHandler(async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+    const skip = (page - 1) * limit;
+
+    const role = req.query.role;
+    const search = req.query.search || "";
+
+    let query = {};
+
+    if (role !== undefined && role !== null && role !== "") {
+      query = { ...query, role };
+    }
+
+    console.log("this is query", query);
+
+    const totalUser = await User.countDocuments({
+      firstname: { $regex: search, $options: "i" },
+    });
+
+    const totalPages = Math.ceil(totalUser / limit);
+    const user = await User.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    console.log(user);
+
+    return res.json({
+      message: "Successfully GET !!",
+      data: user,
+      pagination: {
+        totalPages,
+        currentPage: page,
+        totalUser,
+      },
+      code: 200,
+    });
+  } catch (error) {
+    console.log(error);
     return res.json({ message: "Internal Server Error" });
   }
 });
@@ -315,4 +334,5 @@ module.exports = {
   updateDoctor,
   getAllDoctor,
   getAllUsers,
+  getUsers,
 };

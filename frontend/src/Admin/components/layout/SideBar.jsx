@@ -18,7 +18,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    <h1>THi sis habddnd</h1>;
+    <h1>This is dashboard</h1>;
   };
 
   const [isToggled, setIsToggled] = useState(false);
@@ -76,7 +76,7 @@ const Sidebar = () => {
                 <li>
                   <NavLink
                     end
-                    to="/dashboard"
+                    to="/admin/dashboard"
                     className="flex text-black items-center py-3 px-6 transition duration-200 hover:bg-[#005c69] hover:text-white text-lg"
                     onClick={() => setIsOpen(false)}
                   >

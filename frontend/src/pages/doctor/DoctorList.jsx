@@ -84,7 +84,7 @@ const DoctorList = () => {
 
     // Filter by search input
     if (search) {
-      filtered = filtered.filter(
+      filtered = filtered?.filter(
         (item) =>
           item.name.toLowerCase().includes(search.toLowerCase()) ||
           item.specialist.toLowerCase().includes(search.toLowerCase())
@@ -94,11 +94,10 @@ const DoctorList = () => {
     // Filter by dropdown selection
 
     if (selectedOption && selectedOption.value !== "") {
-      filtered = filtered.filter(
+      filtered = filtered?.filter(
         (item) => item.specialist === selectedOption.value
       );
     }
-
     setFilteredData(filtered);
   };
 
@@ -112,16 +111,15 @@ const DoctorList = () => {
         />
         <Search handleSearch={handleSearch} />
       </div>
-
       <div className="grid grid-cols-3 text-center">
-        {filteredData.map((data, index) => (
+        {filteredData?.map((data, index) => (
           <DoctorCard
             key={index}
-            image={data.image}
-            name={data.name}
-            specialist={data.specialist}
-            experience={data.experience}
-            age={data.age}
+            image={data?.image}
+            name={data?.name}
+            specialist={data?.specialist}
+            experience={data?.experience}
+            age={data?.age}
           />
         ))}
       </div>

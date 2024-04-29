@@ -29,7 +29,7 @@ const SearchBar = ({ value, onChange }) => {
           id="default-search"
           value={value}
           class="block w-full px-10 py-2 text-sm border-2  border-gray-300 rounded-lg"
-          placeholder="Search Mockups, Logos..."
+          placeholder="Search "
           onChange={onChange}
           required
         />

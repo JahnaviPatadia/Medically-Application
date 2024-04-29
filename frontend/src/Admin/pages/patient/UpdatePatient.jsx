@@ -5,9 +5,8 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Select from "react-select";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { MdCleaningServices } from "react-icons/md";
 
 const initialValues = {
   role: "Patient",
@@ -196,7 +195,7 @@ const UpdatePatient = ({ id, closeModal }) => {
               <button
                 className=" cursor-pointer border-0 outline-0 mt-2 w-20 py-2 ml-2  bg-[#005c69] text-white font-bold"
                 type="button"
-                onClick={() => setShowModel(false)}
+                onClick={closeModal}
               >
                 Close
               </button>

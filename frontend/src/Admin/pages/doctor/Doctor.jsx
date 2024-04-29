@@ -24,14 +24,14 @@ const Doctor = () => {
 
   const [filterData, setFilterData] = useImmer({
     totalPages: 1,
-    currentPages: 1,
-    pageSizer: 3,
+    currentPage: 1,
+    pageSize: 3,
   });
 
   const fetchData = async (search) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/users?role=Doctor&search=${search}&page=${filterData.currentPage}&limit=${filterData.pageSize}`
+        `http://localhost:3001/api/users?role=Doctor&page=${filterData.currentPage}&limit=${filterData.pageSize}&search=${search}`
       );
 
       if (response && response?.data) {
@@ -51,7 +51,7 @@ const Doctor = () => {
 
   const handlePageClick = (selectedPage) => {
     setFilterData((draft) => {
-      draft.currentPages = selectedPage.selected + 1;
+      draft.currentPage = selectedPage.selected + 1;
     });
   };
 
@@ -59,7 +59,7 @@ const Doctor = () => {
     if (selectedOption) {
       setFilterData((draft) => {
         draft.pageSize = selectedOption.value;
-        draft.currentPages = 1;
+        draft.currentPage = 1;
       });
     } else {
       setFilterData((draft) => {
@@ -80,7 +80,7 @@ const Doctor = () => {
         <Header />
         <div className="flex justify-end items-center  gap-4  m-4">
           <Select
-            className="shadow "
+            className="shadow w-[20vw]"
             id="status"
             name="status"
             // value={statusOptions.find(
@@ -101,26 +101,27 @@ const Doctor = () => {
             type="button"
             className="rounded p-2 text-sm font-medium text-gray-9 bg-[#E2F3F2] dark:hover:text-white dark:hover:bg-gray-700"
           >
-            Add
+            Add Doctor
           </button>
         </div>
 
         <DoctorList data={tableData} />
-
-        <ReactPaginate
-          className="flex gap-4 "
-          breakLabel="..."
-          pageCount={filterData.totalPages}
-          renderOnZeroPageCount={0}
-          pageRangeDisplayed={1}
-          marginPagesDisplayed={1}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          activeClassName={"active"}
-        />
+        <div className="pt-4 pl-4">
+          <ReactPaginate
+            className="flex gap-4 text-right"
+            breakLabel="..."
+            pageCount={filterData.totalPages}
+            renderOnZeroPageCount={0}
+            pageRangeDisplayed={1}
+            marginPagesDisplayed={1}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            activeClassName={"active"}
+          />
+        </div>
       </div>
       <ModalComponent isOpen={show} closeModal={() => setShow(false)}>
-        <AddDoctor />
+        <AddDoctor closeModal={() => setShow(false)} />
       </ModalComponent>
     </section>
   );

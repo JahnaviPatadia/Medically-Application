@@ -81,154 +81,162 @@ const UpdateDoctor = ({ id, closeModal }) => {
     <FormikProvider value={formik}>
       <div className="flex justify-center items-center">
         <div className="z-10 bg-white max-w-md w-full p-6 my-6">
-          <div className="border-b-2 border border-[#d0d5dd] mb-1">
-            <form className="signupform" onSubmit={formik.handleSubmit}>
-              <label className="font-medium">First Name</label>
-              <br />
-              <input
-                type="text"
-                placeholder="Enter Your First Name"
-                className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                name="firstname"
-                id="firstname"
-                value={formik.values.firstname}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <div className="text-red-600">
-                <ErrorMessage name="firstname" />
-              </div>
+          {/* <div className="border-b-2 border border-[#d0d5dd] mb-1"> */}
+          <form className="signupform" onSubmit={formik.handleSubmit}>
+            <label className="font-medium">First Name</label>
+            <br />
+            <input
+              type="text"
+              placeholder="Enter Your First Name"
+              className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="firstname"
+              id="firstname"
+              value={formik.values.firstname}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <div className="text-red-600">
+              <ErrorMessage name="firstname" />
+            </div>
 
-              <br />
-              <label className="font-medium">Last Name</label>
-              <br />
-              <input
-                type="text"
-                placeholder="Enter Your Last Name"
-                className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                name="lastname"
-                id="lastname"
-                value={formik.values.lastname}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <div className="text-red-600">
-                <ErrorMessage name="lastname" />
-              </div>
+            <br />
+            <label className="font-medium">Last Name</label>
+            <br />
+            <input
+              type="text"
+              placeholder="Enter Your Last Name"
+              className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="lastname"
+              id="lastname"
+              value={formik.values.lastname}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <div className="text-red-600">
+              <ErrorMessage name="lastname" />
+            </div>
 
-              <br />
-              <label className="font-medium">Degree</label>
-              <br />
-              <input
-                type="text"
-                placeholder="Enter Your Degree"
-                className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                name="degree"
-                id="degree"
-                value={formik.values.degree}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <div className="text-red-600">
-                <ErrorMessage name="degree" />
-              </div>
+            <br />
+            <label className="font-medium">Degree</label>
+            <br />
+            <input
+              type="text"
+              placeholder="Enter Your Degree"
+              className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="degree"
+              id="degree"
+              value={formik.values.degree}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <div className="text-red-600">
+              <ErrorMessage name="degree" />
+            </div>
 
-              <br />
-              <label className="font-medium">Experience</label>
-              <br />
-              <input
-                type="text"
-                placeholder="Enter Your Experience"
-                className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                name="experience"
-                id="experience"
-                value={formik.values.experience}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <div className="text-red-600">
-                <ErrorMessage name="experience" />
-              </div>
+            <br />
+            <label className="font-medium">Experience</label>
+            <br />
+            <input
+              type="text"
+              placeholder="Enter Your Experience"
+              className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="experience"
+              id="experience"
+              value={formik.values.experience}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <div className="text-red-600">
+              <ErrorMessage name="experience" />
+            </div>
 
-              <br />
-              <label className="font-medium">Specialization</label>
-              <br />
-              <input
-                type="text"
-                placeholder="Enter Your Specialization"
-                className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                name="specialization"
-                id="specialization"
-                value={formik.values.specialization}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <div className="text-red-600">
-                <ErrorMessage name="specialization" />
-              </div>
+            <br />
+            <label className="font-medium">Specialization</label>
+            <br />
+            <input
+              type="text"
+              placeholder="Enter Your Specialization"
+              className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="specialization"
+              id="specialization"
+              value={formik.values.specialization}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <div className="text-red-600">
+              <ErrorMessage name="specialization" />
+            </div>
 
-              <br />
-              <label className="font-medium">Contact No</label>
-              <br />
-              <input
-                type="text"
-                placeholder="Enter Your Contact Number"
-                className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                name="phoneno"
-                id="phoneno"
-                value={formik.values.phoneno}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              <div className="text-red-600">
-                <ErrorMessage name="phoneno" />
-              </div>
+            <br />
+            <label className="font-medium">Contact No</label>
+            <br />
+            <input
+              type="text"
+              placeholder="Enter Your Contact Number"
+              className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="phoneno"
+              id="phoneno"
+              value={formik.values.phoneno}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <div className="text-red-600">
+              <ErrorMessage name="phoneno" />
+            </div>
 
-              <br />
-              <label className=" font-medium">Select Your Gender</label>
-              <div className="ml-8 ">
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="male"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    checked={formik?.values?.gender === "male"}
-                  />
-                  <span className="ml-2">Male</span>
-                </label>
-                <label className="inline-flex items-center ml-4">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="female"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    checked={formik?.values?.gender === "female"}
-                  />
-                  <span className="ml-2">Female</span>
-                </label>
-                <label className="inline-flex items-center ml-4">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="other"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    checked={formik?.values?.gender === "other"}
-                  />
-                  <span className="ml-2">Other</span>
-                </label>
-              </div>
+            <br />
+            <label className=" font-medium">Select Your Gender</label>
+            <div className="ml-8 ">
+              <label className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  checked={formik?.values?.gender === "male"}
+                />
+                <span className="ml-2">Male</span>
+              </label>
+              <label className="inline-flex items-center ml-4">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="female"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  checked={formik?.values?.gender === "female"}
+                />
+                <span className="ml-2">Female</span>
+              </label>
+              <label className="inline-flex items-center ml-4">
+                <input
+                  type="radio"
+                  name="gender"
+                  value="other"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  checked={formik?.values?.gender === "other"}
+                />
+                <span className="ml-2">Other</span>
+              </label>
+            </div>
+            <div className="flex justify-end">
               <button
-                className=" cursor-pointer border-0 outline-0 mt-2 w-20 py-2  bg-[#005c69] text-white font-bold"
+                className=" cursor-pointer border-0 outline-0 mt-2 w-20 py-2 mr-2  bg-[#005c69] text-white font-bold"
                 type="submit"
               >
                 Update
               </button>
-            </form>
-          </div>
+              <button
+                className=" cursor-pointer border-0 outline-0 mt-2 w-20 py-2 ml-2  bg-[#005c69] text-white font-bold"
+                type="button"
+                onClick={closeModal}
+              >
+                Close
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </FormikProvider>

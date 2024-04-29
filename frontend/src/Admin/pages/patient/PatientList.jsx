@@ -59,7 +59,7 @@ const PatientList = ({ data }) => {
   };
 
   return (
-    <div className="relative  overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="relative  overflow-x-auto ">
       <table className="mx-4 w-[84vw] mt-8 px-16 border-spacing-x-2  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className=" text-xs text-gray-700 uppercase  text-black dark:border-gray-700">
           <tr className="bg-[#E2F3F2]">
@@ -84,7 +84,7 @@ const PatientList = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((data, index) => (
+          {data?.map((data, index) => (
             <tr className="bg-white border-b font-medium dark:border-gray-700 text-black hover:bg-gray-50">
               <th
                 scope="row"
@@ -92,27 +92,26 @@ const PatientList = ({ data }) => {
               >
                 {index + 1}
               </th>
-              <td className="px-6 py-4">{data.firstname}</td>
-
-              <td className="px-6 py-4">{data.email}</td>
+              <td className="px-6 py-4">{data?.firstname}</td>
+              <td className="px-6 py-4">{data?.email}</td>
               {/* <td className="px-6 py-4">{data.role}</td> */}
-              <td className="px-6 py-4">{data.userStatus}</td>
+              <td className="px-6 py-4">{data?.userStatus}</td>
               <td className="flex gap-8 mt-2 pl-10">
                 <button
-                  onClick={() => handleView(data._id)}
+                  onClick={() => handleView(data?._id)}
                   className="border-2 text-lg  hovor:bg-[#3d2f2f] "
                 >
                   <MdOutlinePreview />
                 </button>
                 <button
-                  onClick={() => handleUpdatedClick(data._id)}
+                  onClick={() => handleUpdatedClick(data?._id)}
                   type="button"
                   className="border-2  text-lg hovor:bg-[#3d2f2f]"
                 >
                   <MdOutlineSystemUpdate />
                 </button>
                 <button
-                  onClick={() => deletePatient(data._id)}
+                  onClick={() => deletePatient(data?._id)}
                   className="border-2 text-lg"
                 >
                   <MdDelete />

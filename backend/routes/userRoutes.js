@@ -11,6 +11,7 @@ const {
   getAllPatient,
   getAllDoctor,
   getAllUsers,
+  getUsers,
 } = require("../controllers/userController");
 
 // User Login
@@ -35,5 +36,6 @@ router.get("/user/patient/all", getAllPatient);
 router.get("/user/doctor", getAllDoctor);
 
 router.get("/users", getAllUsers);
+router.get("/getUsers", getUsers);
 
 module.exports = router;

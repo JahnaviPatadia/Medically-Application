@@ -59,7 +59,7 @@ const DoctorList = ({ data }) => {
   };
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="relative overflow-x-auto ">
       <table className=" mx-4 w-[84vw] mt-8 px-16 border-spacing-x-2  text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className=" text-xs text-gray-700 uppercase  text-black dark:border-gray-700">
           <tr className=" bg-[#E2F3F2]">
@@ -84,7 +84,7 @@ const DoctorList = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((data, index) => (
+          {data?.map((data, index) => (
             <tr className="bg-white border-b font-medium dark:border-gray-700 text-black hover:bg-gray-50">
               <th
                 scope="row"

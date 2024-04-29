@@ -7,15 +7,21 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import ModalComponent from "../../components/ModalComponent";
 import AddPatient from "./AddPatient";
-import { object } from "yup";
 import Select from "react-select";
 import useDebounce from "../../../hooks/useDebounce";
+import { useImmer } from "use-immer";
+import ReactPaginate from "react-paginate";
 
 const Patient = () => {
   const [show, setShow] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [userStatus, setUserStatus] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterData, setFilterData] = useImmer({
+    totalPages: 1,
+    currentPage: 1,
+    pageSize: 3,
+  });
   const navigate = useNavigate();
 
   const debouncedSearchQuery = useDebounce(searchQuery, 2000);
@@ -23,11 +29,35 @@ const Patient = () => {
   const fetchData = async (search) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/users?role=Patient&search=${search}`
+        `http://localhost:3001/api/users?role=Patient&search=${search}&page=${filterData.currentPage}&limit=${filterData.pageSize}`
       );
+      console.log(response.data.data);
       setTableData(response.data.data);
+      setFilterData((draft) => {
+        draft.totalPages = response?.data?.pagination?.totalPages;
+      });
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
+  };
+
+  const handlePageClick = (selectedPage) => {
+    setFilterData((draft) => {
+      draft.currentPage = selectedPage.selected + 1;
+    });
+  };
+
+  const handlePageSizeChange = (selectedOption) => {
+    if (selectedOption) {
+      setFilterData((draft) => {
+        draft.pageSize = selectedOption.value;
+        draft.currentPage = 1;
+      });
+    } else {
+      setFilterData((draft) => {
+        draft.pageSize = 3;
+        draft.currentPage = 1;
+      });
     }
   };
 
@@ -86,12 +116,24 @@ const Patient = () => {
             </button>
           </div>
         </div>
-
         <PatientList data={tableData} />
+        <div className="pt-4 pl-4">
+          <ReactPaginate
+            className="flex gap-4 text-right"
+            breakLabel="..."
+            pageCount={filterData.totalPages}
+            renderOnZeroPageCount={0}
+            pageRangeDisplayed={1}
+            marginPagesDisplayed={1}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            activeClassName={"active"}
+          />
+        </div>
       </div>
       <Footer />
       <ModalComponent isOpen={show} closeModal={() => setShow(false)}>
-        <AddPatient />
+        <AddPatient closeModal={() => setShow(false)} />
       </ModalComponent>
     </section>
   );
