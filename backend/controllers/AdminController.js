@@ -8,12 +8,13 @@ const Login = asyncHandler(async (req, res) => {
 
     if (!email || !password) {
       res.status(400);
+      // don't trow error here
       throw new Error("All fields are mandatory");
     }
+
     const user = await User.findOne({ email });
-    console.log(user);
+
     if (user) {
-      console.log("message");
       const accessToken = jwt.sign(
         {
           user: { email: user.email, password: user.password },
@@ -22,7 +23,8 @@ const Login = asyncHandler(async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "15m" }
       );
-      console.log(accessToken);
+
+      // pass user data also
       return res.json({
         message: "Login Successfully",
         data: { accessToken },

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Search from "../../components/Search";
 import DoctorCard from "../../components/DoctorCard";
 import DropDown from "../../components/DropDown";
+import axios from "axios";
 
 import image1 from "../../assests/images/d1.png";
 import image2 from "../../assests/images/d7.png";
@@ -9,52 +10,61 @@ import image3 from "../../assests/images/d3.png";
 import image4 from "../../assests/images/d4.png";
 import image5 from "../../assests/images/d5.png";
 import image6 from "../../assests/images/d6.png";
+import SearchBar from "../../Admin/components/SearchBar";
+import useDebounce from "../../hooks/useDebounce";
+import { useImmer } from "use-immer";
+import ReactPaginate from "react-paginate";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const DoctorList = () => {
-  const carddata = [
-    {
-      image: image1,
-      name: "Willion Peterson",
-      specialist: "Dermatologies",
-      experience: "25 Years",
-      age: "55 Years",
-    },
-    {
-      image: image2,
-      name: "Lalit Kumar",
-      specialist: "Immunologies",
-      experience: "18 Years",
-      age: "45 Years",
-    },
-    {
-      image: image3,
-      name: "Emma Watson",
-      specialist: "Dermatologies",
-      experience: "30 Years",
-      age: "55 Years",
-    },
-    {
-      image: image4,
-      name: "Elna Michael",
-      specialist: "Cardiologist",
-      experience: "5 Years",
-      age: "35 Years",
-    },
-    {
-      image: image5,
-      name: "Kane Robert",
-      specialist: "Hematologists",
-      experience: "13 Years",
-      age: "38 Years",
-    },
-    {
-      image: image6,
-      name: "Reena Kumari",
-      specialist: "ENT",
-      experience: "6 Years",
-      age: "36 Years",
-    },
-  ];
+  const [data, setData] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 2000);
+  const [filterData, setFilterData] = useImmer({
+    totalPages: 1,
+    currentPage: 1,
+    pageSize: 10,
+  });
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  // console.log(location.pathname());
+
+  const fetchData = async (search) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/getUsers?role=Doctor&search=${search}&page=${filterData.currentPage}&limit=${filterData.pageSize}`
+      );
+      setData(response?.data.data);
+      console.log(response?.data?.data);
+    } catch (error) {
+      console.log("Internal Server Error");
+    }
+  };
+
+  const handlePageClick = (selectedPage) => {
+    setFilterData((draft) => {
+      draft.currentPage = selectedPage.selected + 1;
+    });
+  };
+
+  const handlePageSizeChange = (selectedOption) => {
+    if (selectedOption) {
+      setFilterData((draft) => {
+        draft.pageSize = selectedOption.value;
+        draft.currentPage = 1;
+      });
+    } else {
+      setFilterData((draft) => {
+        draft.pageSize = 10;
+        draft.currentPage = 1;
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchData(debouncedSearchQuery);
+  }, [debouncedSearchQuery]);
 
   const options = [
     { value: "Dermatologies", label: "Dermatologies" },
@@ -66,7 +76,7 @@ const DoctorList = () => {
   ];
 
   const [search, setSearch] = useState("");
-  const [filteredData, setFilteredData] = useState(carddata);
+  // const [filteredData, setFilteredData] = useState(data);
   const [selectedOption, setSelectedOption] = useState("");
 
   const handleSearch = (e) => {
@@ -79,49 +89,49 @@ const DoctorList = () => {
     filterData(search, selectedOption);
   };
 
-  const filterData = (search, selectedOption) => {
-    let filtered = carddata;
-
-    // Filter by search input
-    if (search) {
-      filtered = filtered?.filter(
-        (item) =>
-          item.name.toLowerCase().includes(search.toLowerCase()) ||
-          item.specialist.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-
-    // Filter by dropdown selection
-
-    if (selectedOption && selectedOption.value !== "") {
-      filtered = filtered?.filter(
-        (item) => item.specialist === selectedOption.value
-      );
-    }
-    setFilteredData(filtered);
-  };
-
   return (
     <>
-      <div className="flex mt-8 item-center justify-around mx-32 gap-16">
-        <DropDown
-          options={options}
-          selectedOption={selectedOption}
-          setData={setFilteredData}
-        />
-        <Search handleSearch={handleSearch} />
+      <div className="flex  mt-8 item-center justify-end ml-32 mr-8 gap-8 ">
+        <div className="w-80  ">
+          <DropDown
+            options={options}
+            selectedOption={selectedOption}
+            // setData={setFilteredData}
+          />
+        </div>
+
+        <div className="w-80">
+          <SearchBar
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e?.target?.value)}
+          />
+        </div>
       </div>
       <div className="grid grid-cols-3 text-center">
-        {filteredData?.map((data, index) => (
+        {data?.map((data, index) => (
           <DoctorCard
             key={index}
-            image={data?.image}
-            name={data?.name}
-            specialist={data?.specialist}
-            experience={data?.experience}
-            age={data?.age}
+            data={data}
+            // image={data?.image}
+            // name={data?.firstname + " " + data?.lastname}
+            // specialist={data?.specialization}
+            // experience={data?.experience}
+            // age={data?.age}
           />
         ))}
+      </div>
+      <div className="flex justify-center">
+        <ReactPaginate
+          className="flex gap-4 "
+          breakLabel="..."
+          pageCount={filterData.totalPages}
+          renderOnZeroPageCount={0}
+          pageRangeDisplayed={1}
+          marginPagesDisplayed={1}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          activeClassName={"active"}
+        />
       </div>
     </>
   );

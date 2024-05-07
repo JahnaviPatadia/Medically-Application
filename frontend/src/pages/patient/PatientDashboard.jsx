@@ -1,15 +1,14 @@
-import react from "react";
+import React from "react";
+import PatientSideBar from "../../components/Patient/PatientSideBar";
 import { Outlet } from "react-router-dom";
 import Header from "../../Admin/pages/doctor/Header";
 
-import DoctorSidebar from "../../components/Doctor/DoctorSidebar";
-
-const DoctorDashboard = () => {
+const PatientDashboard = () => {
   return (
     <>
       <div className="flex flex-wrap">
         <div className="w-full bg-darkgray md:bg-transparent">
-          <DoctorSidebar />
+          <PatientSideBar />
         </div>
 
         <div className="site-container w-full ml-0 md:ml-40 overflow-x-hidden ">
@@ -21,4 +20,4 @@ const DoctorDashboard = () => {
   );
 };
 
-export default DoctorDashboard;
+export default PatientDashboard;

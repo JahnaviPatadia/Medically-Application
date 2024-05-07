@@ -35,19 +35,19 @@ const Header = () => {
               Home
             </Link>
             <Link
-              to="#"
+              to="/doctor-list"
               className="font-semibold block lg:inline-block mt-4 lg:mt-0"
             >
-              Services
+              Find Doctor
             </Link>
             <Link
-              to="#"
+              to="/contactus"
               className="font-semibold block lg:inline-block mt-4 lg:mt-0"
             >
-              Contact
+              Contact Us
             </Link>
             <Link
-              to="#"
+              to="/aboutus"
               className="font-semibold block lg:inline-block mt-4 lg:mt-0"
             >
               About

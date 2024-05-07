@@ -18,6 +18,7 @@ const initialValues = {
   specialization: "",
   phoneno: "",
   gender: "",
+  userStatus: "",
 };
 
 const SignupSchema = Yup.object({
@@ -28,9 +29,16 @@ const SignupSchema = Yup.object({
   degree: Yup.string().required("Please enter your degree"),
   experience: Yup.string().required("Please enter your experience"),
   specialization: Yup.string().required("Please enter your specialization"),
+  userStatus: Yup.string().required("Please enter your status"),
 });
 
+const statusOptions = [
+  { value: "Active", label: "Active" },
+  { value: "Inactive", label: "Inactive" },
+];
+
 const UpdateDoctor = ({ id, closeModal }) => {
+  const [userStatus, setUserStatus] = useState([]);
   const [userData, setUserData] = useState(initialValues);
 
   const formik = useFormik({
@@ -38,6 +46,7 @@ const UpdateDoctor = ({ id, closeModal }) => {
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
       try {
+        values = { ...values, userStatus };
         const response = await axios.put(
           `http://localhost:3001/api/user/doctor/${id}`,
           values
@@ -221,15 +230,32 @@ const UpdateDoctor = ({ id, closeModal }) => {
                 <span className="ml-2">Other</span>
               </label>
             </div>
+            <br />
+            <div className="mt-6">
+              <label className="font-medium">Select Status</label>
+              <Select
+                className="shadow w-[20vw] mt-2"
+                id="userStatus"
+                name="userStatus"
+                value={statusOptions?.find(
+                  (options) => options?.value === userStatus
+                )}
+                onChange={(e) => {
+                  setUserStatus(e.value);
+                }}
+                isClearable
+                options={statusOptions}
+              />
+            </div>
             <div className="flex justify-end">
               <button
-                className=" cursor-pointer border-0 outline-0 mt-2 w-20 py-2 mr-2  bg-[#005c69] text-white font-bold"
+                className=" cursor-pointer border-0 outline-0 mt-4 w-20 py-2 mr-2  bg-[#005c69] text-white font-bold"
                 type="submit"
               >
                 Update
               </button>
               <button
-                className=" cursor-pointer border-0 outline-0 mt-2 w-20 py-2 ml-2  bg-[#005c69] text-white font-bold"
+                className=" cursor-pointer border-0 outline-0 mt-4 w-20 py-2 ml-2  bg-[#005c69] text-white font-bold"
                 type="button"
                 onClick={closeModal}
               >

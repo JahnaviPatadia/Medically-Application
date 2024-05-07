@@ -49,6 +49,11 @@ const ViewPatient = ({ id }) => {
         <label>
           <label className="font-medium">Contact Number:</label> {data?.phoneno}
         </label>
+
+        <br />
+        <label>
+          <label className="font-medium">Status: </label> {data?.userStatus}
+        </label>
       </div>
     </div>
   );

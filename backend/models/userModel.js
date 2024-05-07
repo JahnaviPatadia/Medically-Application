@@ -8,11 +8,11 @@ const userSchema = mongoose.Schema({
   },
   firstname: {
     type: String,
-    //required: [true, "Please add the user first name"],
+    required: [true, "Please add the user first name"],
   },
   lastname: {
     type: String,
-    //required: [true, "Please add the user last name"],
+    required: [true, "Please add the user last name"],
   },
   email: {
     type: String,
@@ -25,48 +25,48 @@ const userSchema = mongoose.Schema({
   },
   gender: {
     type: String,
-    //required: [true, "Please add the user gender"],
+    required: [true, "Please add the user gender"],
   },
 
   phoneno: {
     type: String,
-    //required: [true, "Please add the user phone number"],
+    required: [true, "Please add the user phone number"],
   },
   dob: {
     type: String,
-    //required: [true, "Please add the user date of birth"],
+    // required: [true, "Please add the user date of birth"],
   },
   state: {
     type: String,
-    //required: [true, "Please add the user state"],
+    // required: [true, "Please add the user state"],
   },
   city: {
     type: String,
-    //required: [true, "Please add the use city"],
+    // required: [true, "Please add the use city"],
   },
   pincode: {
     type: String,
-    //required: [true, "Please add the user pincode"],
+    // required: [true, "Please add the user pincode"],
   },
   address: {
     type: String,
-    //required: [true, "Please add the user address"],
+    // required: [true, "Please add the user address"],
   },
   experience: {
     type: String,
-    //required: [true, "Please add the user experience"],
+    // required: [true, "Please add the user experience"],
   },
   degree: {
     type: String,
-    //required: [true, "Please add the user degree"],
+    // required: [true, "Please add the user degree"],
   },
   qualification: {
     type: String,
-    //required: [true, "Please add the user qualification"],
+    // required: [true, "Please add the user qualification"],
   },
   specialization: {
     type: String,
-    //required: [true, "Please add the user specialization"],
+    // required: [true, "Please add the user specialization"],
   },
   userStatus: {
     type: String,

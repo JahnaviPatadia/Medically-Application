@@ -236,7 +236,7 @@ const updateDoctor = async (req, res) => {
 const getAllUsers = asyncHandler(async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 6;
+    const limit = parseInt(req.query.limit) || 5;
     const skip = (page - 1) * limit;
 
     // here all string filter
@@ -278,7 +278,52 @@ const getAllUsers = asyncHandler(async (req, res) => {
   }
 });
 
-const getUsers = asyncHandler(async (req, res) => {
+// const getUsers = asyncHandler(async (req, res) => {
+//   try {
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 6;
+//     const skip = (page - 1) * limit;
+
+//     const role = req.query.role;
+//     const search = req.query.search || "";
+
+//     let query = {};
+
+//     if (role !== undefined && role !== null && role !== "") {
+//       query = { ...query, role };
+//     }
+
+//     console.log("this is query", query);
+
+//     const totalUser = await User.countDocuments({
+//       firstname: { $regex: search, $options: "i" },
+//     });
+
+//     const totalPages = Math.ceil(totalUser / limit);
+//     const user = await User.find()
+//       .sort({ createdAt: -1 })
+//       .skip(skip)
+//       .limit(limit);
+
+//     console.log(user);
+
+//     return res.json({
+//       message: "Successfully GET !!",
+//       data: user,
+//       pagination: {
+//         totalPages,
+//         currentPage: page,
+//         totalUser,
+//       },
+//       code: 200,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return res.json({ message: "Internal Server Error" });
+//   }
+// });
+
+const getUsers = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
@@ -286,42 +331,50 @@ const getUsers = asyncHandler(async (req, res) => {
 
     const role = req.query.role;
     const search = req.query.search || "";
+    const status = req.query.status || "";
 
     let query = {};
-
-    if (role !== undefined && role !== null && role !== "") {
-      query = { ...query, role };
+    if (role) {
+      query.role = role;
     }
 
-    console.log("this is query", query);
+    if (status) {
+      query.userStatus = status;
+    }
 
-    const totalUser = await User.countDocuments({
-      firstname: { $regex: search, $options: "i" },
-    });
+    query.$or = [
+      { firstname: { $regex: search, $options: "i" } },
+      { email: { $regex: search, $options: "i" } },
+    ];
+
+    const totalUser = await User.countDocuments(query);
 
     const totalPages = Math.ceil(totalUser / limit);
-    const user = await User.find()
+
+    const user = await User.find(query)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
-
     console.log(user);
-
-    return res.json({
-      message: "Successfully GET !!",
-      data: user,
-      pagination: {
-        totalPages,
-        currentPage: page,
-        totalUser,
-      },
-      code: 200,
-    });
+    if (user) {
+      return res.json({
+        message: "Successfully GET !!",
+        data: user,
+        pagination: {
+          totalPages,
+          currentPage: page,
+          totalUser,
+        },
+        code: 200,
+      });
+    } else {
+      return res.json({ message: "Something went wrong !!", code: 400 });
+    }
   } catch (error) {
     console.log(error);
-    return res.json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
-});
+};
 
 module.exports = {
   signUp,

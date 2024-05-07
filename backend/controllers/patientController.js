@@ -23,6 +23,7 @@ const updatePatient = async (req, res) => {
 const getAllPatient = asyncHandler(async (req, res) => {
   try {
     const response = await User.find({ role: "Patient" });
+    console.log(response);
     if (response) {
       return res.json({
         message: "Successfully GET !!",
@@ -53,3 +54,5 @@ const deletePatient = async (req, res) => {
     return res.json({ message: "Internal Server Error !!" });
   }
 };
+
+module.exports = { updatePatient, getAllPatient, deletePatient };

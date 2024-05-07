@@ -15,6 +15,7 @@ const initialValues = {
   // email: "",
   phoneno: "",
   gender: "",
+  userStatus: "",
 };
 
 const SignupSchema = Yup.object({
@@ -26,9 +27,16 @@ const SignupSchema = Yup.object({
   lastname: Yup.string().required("Please enter your last name"),
   phoneno: Yup.string().required("Please enter your contact no"),
   gender: Yup.string().required("Please enter your gender"),
+  userStatus: Yup.string().required("Please enter user status"),
 });
 
+const statusOptions = [
+  { value: "Active", label: "Active" },
+  { value: "Inactive", label: "Inactive" },
+];
+
 const UpdatePatient = ({ id, closeModal }) => {
+  const [userStatus, setUserStatus] = useState();
   const [userData, setUserData] = useState(initialValues);
   const [showModel, setShowModel] = useState(false);
 
@@ -173,7 +181,7 @@ const UpdatePatient = ({ id, closeModal }) => {
             <label className="font-medium">Contact Number</label>
             <br />
             <input
-              type="number"
+              type="text"
               placeholder="Enter Your Contact Number"
               className="shadow appearance-none border w-full py-3 px-2 text-gray-700 leading-tight focus: outline-none focus-shadow-outline"
               name="phoneno"
@@ -184,6 +192,23 @@ const UpdatePatient = ({ id, closeModal }) => {
             />
             <div className="text-red-600">
               <ErrorMessage name="phoneno" />
+            </div>
+            <br />
+            <div className="mt-6">
+              <label className="font-medium">Select Status</label>
+              <Select
+                className="shadow w-[20vw] mt-2"
+                id="userStatus"
+                name="userStatus"
+                value={statusOptions?.find(
+                  (options) => options?.value === userStatus
+                )}
+                onChange={(e) => {
+                  setUserStatus(e.value);
+                }}
+                isClearable
+                options={statusOptions}
+              />
             </div>
             <div className="flex justify-end">
               <button

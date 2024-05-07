@@ -369,6 +369,7 @@ const AddDoctor = ({ closeModal }) => {
               <button
                 className=" cursor-pointer w-full border-0 mt-4 outline-0 m-4 rounded py-2 px-2 bg-[#005c69] text-white font-bold"
                 type="submit"
+                onClick={closeModal}
               >
                 Add
               </button>
